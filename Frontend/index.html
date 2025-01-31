@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+    <link rel="stylesheet" href="./app.css">
+  </head>
+  <body>
+    <h1>Ping-Pong Controller</h1>
+    <label for="player">Choose left or right player</label>
+
+    <select name="players" id="player">
+      <option value="left">Left Player</option>
+      <option value="right">Right Player</option>
+    </select> <br>
+    <button id="up">UP</button>
+    <button id="down">DOWN</button>
+
+    <script>
+        const up = document.querySelector("button#up");
+        const down = document.querySelector("button#down");
+       
+       const getURL = () => {
+        if(document.getElementById("player").value == "left"){
+          return "https://ping.unser.dns64.de/left"
+          console.log(url)
+        }
+        else{
+          return "https://ping.unser.dns64.de/right"
+          console.log(url)
+        }
+        return url
+       }
+
+       async function sendData(upState, downState) {
+          await fetch(getURL(), {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+        body: JSON.stringify({ up: upState, down: downState })
+          });
+        }
+
+up.addEventListener("mousedown", () => sendData(true, false));
+up.addEventListener("mouseup", () => sendData(false, false));
+
+down.addEventListener("mousedown", () => sendData(false, true));
+down.addEventListener("mouseup", () => sendData(false, false));
+    </script>
+  </body>
+</html>
